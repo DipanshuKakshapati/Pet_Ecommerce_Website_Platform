@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+
+{% load humanize %}
+
+{% block title %}Checkout {% endblock %}
+
+{% block content %}
+
+<style>
+    .placeorder-btn {
+        background-color: #007BFF;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    .placeorder-btn:hover {
+        background-color: #4CAF50;
+        border-color: #4CAF50;
+        color: #fff;
+    }
+    .stepper-wrapper {
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.stepper-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
+}
+
+.stepper-item::before {
+  position: absolute;
+  content: "";
+  border-bottom: 2px solid #ccc;
+  width: 100%;
+  top: 20px;
+  left: -50%;
+  z-index: 2;
+}
+
+.stepper-item::after {
+  position: absolute;
+  content: "";
+  border-bottom: 2px solid #ccc;
+  width: 100%;
+  top: 20px;
+  left: 50%;
+  z-index: 2;
+}
+
+.stepper-item .step-counter {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #ccc;
+  margin-bottom: 6px;
+}
+
+.stepper-item.active {
+  color: #007BFF;
+}
+
+.stepper-item.completed .step-counter {
+  background-color: #4bb543;
+}
+
+.stepper-item.completed::after {
+  position: absolute;
+  content: "";
+  border-bottom: 2px solid #4bb543;
+  width: 100%;
+  top: 20px;
+  left: 50%;
+  z-index: 3;
+}
+
+.stepper-item:first-child::before {
+  content: none;
+}
+.stepper-item:last-child::after {
+  content: none;
+}
+</style>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-7">
+            <h3>Items in the cart</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>SN</th>
+                        <th>Product's Name</th>
+                        <th>Quantity</th>
+                        <th>Unit Price</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{item.product.name}}</td>
+                        <td>{{item.quantity}}</td>
+                        <td>{{item.product.price | intcomma}}</td>
+                        <td>{{item.price | intcomma}}</td>
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                        <th colspan="4" class="text-right">Total</th>
+                        <th>Rs. {{cart.total_price | intcomma}}</th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-5">
+            <h3>Checkout Form</h3>
+            <form action="" method="POST">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="form-group{% if field.errors %} has-error{% endif %}">
+                        {{ field.label_tag }}
+                        {{ field }}
+                        {% if field.errors %}
+                            <div class="error-message" style="color: red;">
+                                {{ field.errors|first }}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+                <button class="btn btn-info placeorder-btn">Place order</button>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="stepper-wrapper">
+    <div class="stepper-item completed">
+      <div class="step-counter">1</div>
+      <div class="step-name">Cart</div>
+    </div>
+    <div class="stepper-item active">
+      <div class="step-counter">2</div>
+      <div class="step-name">Checkout</div>
+    </div>
+    <div class="stepper-item">
+      <div class="step-counter">3</div>
+      <div class="step-name">Payment</div>
+    </div>
+    <div class="stepper-item">
+      <div class="step-counter">4</div>
+      <div class="step-name">Order Placed</div>
+    </div>
+  </div>
+{% endblock %}
+

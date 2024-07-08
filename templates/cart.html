@@ -1,0 +1,227 @@
+{% extends 'base.html' %} 
+{% block content %}
+{% load humanize %}
+
+<style>
+    /* General Styles */
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    .shoppingCart {
+        width: 80%;
+        min-height: 500px; /* This will ensure the box has a minimum height of 600px */
+        margin: 50px auto;
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .shoppingCart h2, .shoppingCart h3 {
+        color: #333;
+    }
+
+    /* Heading Row */
+    .heading.row {
+        background-color: #333;
+        color: #fff;
+        padding: 10px 0;
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
+
+    /* Item Container */
+    .itemContainer {
+        max-height: 400px;
+        overflow-y: auto;
+    }
+
+    /* Individual Item Row */
+    .item.row {
+        margin-bottom: 20px;
+    }
+
+    .iteminfo {
+        align-items: center;
+    }
+
+    .p_img img {
+        max-width: 60px;
+        border-radius: 5px;
+    }
+
+    .item p {
+        margin: 0;
+        color: #555;
+    }
+
+    /* Action Buttons */
+    .btn {
+        margin: 0 5px;
+    }
+
+    /* Checkout Section */
+    .pay-section {
+        text-align: right;
+        margin-top: 30px;
+    }
+
+    .checkout-btn {
+        background-color: #007BFF;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    .checkout-btn:hover {
+        background-color: #4CAF50;
+        border-color: #4CAF50;
+        color: #fff;
+    }
+
+    .stepper-wrapper {
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.stepper-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
+}
+
+.stepper-item::before {
+  position: absolute;
+  content: "";
+  border-bottom: 2px solid #ccc;
+  width: 100%;
+  top: 20px;
+  left: -50%;
+  z-index: 2;
+}
+
+.stepper-item::after {
+  position: absolute;
+  content: "";
+  border-bottom: 2px solid #ccc;
+  width: 100%;
+  top: 20px;
+  left: 50%;
+  z-index: 2;
+}
+
+.stepper-item .step-counter {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #ccc;
+  margin-bottom: 6px;
+}
+
+.stepper-item.active {
+  color: #007BFF;
+}
+
+.stepper-item.completed .step-counter {
+  background-color: #4bb543;
+}
+
+.stepper-item.completed::after {
+  position: absolute;
+  content: "";
+  border-bottom: 2px solid #4bb543;
+  width: 100%;
+  top: 20px;
+  left: 50%;
+  z-index: 3;
+}
+
+.stepper-item:first-child::before {
+  content: none;
+}
+.stepper-item:last-child::after {
+  content: none;
+}
+</style>
+
+<div class="shoppingCart container-fluid">
+    <h2 class="mb-4">My Cart</h2>
+
+    <div class="heading row font-weight-bold d-none d-md-flex">
+        <div class="col-md-4">Product</div>
+        <div class="col-md-2">Quantity</div>
+        <div class="col-md-2">Unit Price</div>
+        <div class="col-md-2">Price</div>
+        <div class="col-md-2">Actions</div>
+    </div>
+
+<div class="itemContainer">
+        {% for item in items %}
+        <div class="item row border-bottom py-2">
+            <div class="col-12 col-md-4 mb-2 mb-md-0">
+                <div class="iteminfo d-flex">
+                    <div class="p_img pr-2 pr-md-3">
+                        <img src="{{item.product.picture.url}}" alt="" class="img-fluid" />
+                    </div>
+                    <p>{{item.product.name}}</p>
+                </div>
+            </div>
+            <div class="col-4 col-md-2"><p>Qty: {{item.quantity}}</p></div>
+            <div class="col-4 col-md-2"><p>Rs.{{item.product.price | intcomma}}</p></div>
+            <div class="col-4 col-md-2"><p>Total: Rs.{{item.price | intcomma}}</p></div>
+            <div class="col-12 col-md-2 text-center">
+                <a href="{% url 'managecart' item.id %}?action=inc" class="btn btn-primary btn-sm"> + </a>
+                <a href="{% url 'managecart' item.id %}?action=dcr" class="btn btn-warning btn-sm"> - </a>
+                <a href="{% url 'managecart' item.id %}?action=rmv" class="btn btn-danger btn-sm"> x </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="pay-section mt-4">
+        <h3 class="font-weight-bold">Grand-Total: Rs.{{cart.total_price | intcomma}}</h3>
+        {% if items %}
+            <a class="btn btn-info checkout-btn" href="{% url 'checkout' %}"> Checkout </a>
+        {% else %}
+            <p>No items in the cart. Please add items before checking out.</p>
+        {% endif %}
+    </div>
+    
+
+</div>
+
+<div class="stepper-wrapper">
+    <div class="stepper-item active">
+      <div class="step-counter">1</div>
+      <div class="step-name">Cart</div>
+    </div>
+    <div class="stepper-item">
+      <div class="step-counter">2</div>
+      <div class="step-name">Checkout</div>
+    </div>
+    <div class="stepper-item">
+      <div class="step-counter">3</div>
+      <div class="step-name">Payment</div>
+    </div>
+    <div class="stepper-item">
+      <div class="step-counter">4</div>
+      <div class="step-name">Order Placed</div>
+    </div>
+  </div>
+
+{% endblock content %}

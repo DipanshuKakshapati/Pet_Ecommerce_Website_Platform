@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Pawsome - Your Source for Pet Products</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'css/all.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style-home.css' %}">
+        <!-- Add this line to include Font Awesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
+</head>
+
+<style>
+
+    .white-text {
+        color: white !important;  /* Using !important to override Bootstrap's styles if necessary */
+    }
+
+    a {
+        color: white;
+        text-decoration: none;
+    }
+
+    .custom-card:hover {
+        background-color: #f0f0f0; /* Change the background color on hover */
+        /* Add any other style changes that don't affect the size */
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for visual effect */
+    }
+
+    .rating {
+    display: flex;
+    flex-direction: row-reverse;  /* Display labels in reverse order */
+    justify-content: center;
+    }
+
+    .rating > label {
+    cursor: pointer;
+    font-size: 24px;
+    padding: 0 5px;
+    color: #ccc;  /* Default star color */
+    }
+
+    .rating > label:hover,
+    .rating > label:hover ~ label,
+    .rating > input:checked ~ label {
+    color: gold;  /* Color when hovered or selected */
+    }
+
+    .search-btn {
+        background-color: #007BFF;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    .search-btn:hover {
+        background-color: #4CAF50;
+        border-color: #4CAF50;
+    }
+
+    nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* ensures the nav stays on top of other content */
+    background-color: #5E338D; /* or whatever your nav background color is; this ensures the content behind doesn't show through */
+    }
+
+    body {
+    padding-top: 80px; /* Adjust based on the height of your nav */
+    }
+
+    .mega-menu {
+    width: 100vw;  /* Adjust as needed. */
+    max-width: 600px; /* Max width can be adjusted as per requirement. */
+    padding: 20px; /* Optional padding for better appearance. */
+    margin-top: 20px; /* Adjust this value to set the desired space below the dropdown button */
+    }
+
+    .dropdown-item img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .mega-menu .row {
+    margin-bottom: 15px; /* Adjust this value for desired gap between rows */
+    }
+
+    /* This is to remove the margin-bottom for the last row */
+    .mega-menu .row:last-child {
+        margin-bottom: 0;
+    }
+
+    /* For larger screen sizes, you can adjust image sizes or the number of images per row */
+    @media (min-width: 992px) {
+    .mega-menu .row .col-3 {
+        flex: 0 0 25%;
+        max-width: 25%;
+    }
+    }
+
+        /* NAVIGATION */
+
+    nav ul li a {
+
+    display: block;
+    padding: 5px;
+    text-decoration: none;
+    color: #aaa;
+    margin: 0 2px;
+    }
+
+    .search-btn {
+    background-color: #FFA439;
+    border-color: #FFA439;
+    }
+
+    
+    nav ul li a,
+    nav ul li a:after,
+    nav ul li a:before {
+    transition: all .5s;
+    }
+
+    nav ul li a:hover {
+    color: #FF2D79;
+    }
+
+    /* SHIFT */
+    nav.shift ul li .btn.dropdown-toggle {
+        position: relative;
+        z-index: 1;
+        transition: all .5s;
+        color: #fff;
+    }
+
+    nav.shift ul li .btn.dropdown-toggle:hover {
+        color: #ffffff;
+    }
+
+    nav.shift ul li .btn.dropdown-toggle:after {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+        width: 100%;
+        height: 1px;
+        content: '.';
+        color: transparent;
+        background: #FF2D79;
+        visibility: hidden;
+        opacity: 0;
+        z-index: -1;
+    }
+
+    nav.shift ul li .btn.dropdown-toggle:hover:after {
+        opacity: 1;
+        visibility: visible;
+        height: 100%;
+    
+    }
+
+    nav.shift ul li a {
+        position: relative;
+        z-index: 1;
+        transition: all .5s;
+        color: rgb(0, 0, 0);
+    }
+
+    nav.shift ul li a:hover {
+        color: #ffffff;
+    }
+    
+    nav.shift ul li a:after {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+        width: 100%;
+        height: 1px;
+        content: '.';
+        color: transparent;
+        background: #FF2d79;
+        visibility: hidden;
+        opacity: 0;
+        z-index: -1;
+    }
+    
+    nav.shift ul li a:hover:after {
+        opacity: 1;
+        visibility: visible;
+        height: 100%;
+    }
+
+
+</style>
+
+<body>
+
+    <nav>
+        <div class="logo">
+            <a href="{% url 'home' %}">
+                Pawsome
+            </a>
+        </div>
+        
+        <ul class="nav nav-underline">
+            <nav class="navbar navbar-expand-lg bg-body-tertiary shift">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item dropdown">
+                            <div class="btn-group">
+                                <button type="button" class="btn dropdown-toggle white-text" data-bs-toggle="dropdown" aria-expanded="false" onmouseover="this.click();" onmouseout="this.blur();">
+                                    Dog <i class="bi bi-chevron-down"></i><span class="visually-hidden">Toggle Dropdown</span>
+                                </button>                                  
+                                <div class="dropdown-menu mega-menu">
+                                    <div class="row">
+                                        <!-- First Card -->
+                                        <div class="col-md-4" style="padding: 5px;"> 
+                                            <!-- Card Content Here -->
+                                            <a href="{% url 'dog_beds_and_mats_products' %}">
+                                                <div class="card mb-2 product-card" style="width: 180px; height: 60px;">
+                                                    <div class="row g-0">
+                                                        <div class="col-md-6">
+                                                            <img src="{% static 'css/dog-beds.jpg' %}" class="img-fluid rounded-start" alt="Dog" style="width: 100%; height: 100%; object-fit: cover;"> 
+                                                        </div>
+                                                        <div class="col-md-6 d-flex align-items-center justify-content-center"> <!-- Add flexbox classes -->
+                                                            <div class="card-body" style="padding: 8px;">
+                                                                <h5 class="card-title" style="color: black; font-size: 14px; margin: 0;">Beds and Mats</h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        
+                                        <!-- Second Card -->
+                                        <div class="col-md-4" style="padding: 5px;"> 
+                                            <!-- Card Content Here -->
+                                            <a href="{% url 'dog_healthcare_products' %}">
+                                                <div class="card mb-2 product-card" style="width: 180px; height: 60px;">
+                                                    <div class="row g-0">
+                                                        <div class="col-md-6">
+                                                            <img src="{% static 'css/dog-healthcare.jpg' %}" class="img-fluid rounded-start" alt="Dog" style="width: 100%; height: 100%; object-fit: cover;"> 
+                                                        </div>
+                                                        <div class="col-md-6 d-flex align-items-center justify-content-center"> <!-- Add flexbox classes -->
+                                                            <div class="card-body" style="padding: 8px;">
+                                                                <h5 class="card-title" style="color: black; font-size: 14px; margin: 0;">Healthcare</h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        
+                                        <!-- Third Card -->
+                                        <div class="col-md-4" style="padding: 5px;"> 
+                                            <!-- Card Content Here -->
+                                            <a href="{% url 'dog_treats_and_chews_products' %}">
+                                                <div class="card mb-2 product-card" style="width: 180px; height: 60px;">
+                                                    <div class="row g-0">
+                                                        <div class="col-md-6">
+                                                            <img src="{% static 'css/dog-treats.jpg' %}" class="img-fluid rounded-start" alt="Dog" style="width: 100%; height: 100%; object-fit: cover;"> 
+                                                        </div>
+                                                        <div class="col-md-6 d-flex align-items-center justify-content-center"> <!-- Add flexbox classes -->
+                                                            <div class="card-body" style="padding-bottom: 50px;">
+                                                                <h5 class="card-title" style="color: black; font-size: 14px; margin: 0;">Treats & Chews</h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+
+                                        <!-- Fourth Card -->
+                                        <div class="col-md-4" style="padding: 5px;"> 
+                                            <!-- Card Content Here -->
+                                            <a href="{% url 'dog_food_products' %}">
+                                                <div class="card mb-2 product-card" style="width: 180px; height: 60px;"">
+                                                    <div class="row g-0">
+                                                        <div class="col-md-6">
+                                                            <img src="{% static 'css/dog-food.jpg' %}" class="img-fluid rounded-start" alt="Dog" style="margin: 0;"> 
+                                                        </div>
+                                                        <div class="col-md-6 d-flex align-items-center justify-content-center"> <!-- Add flexbox classes -->
+                                                            <div class="card-body" style="padding-bottom: 40px;">
+                                                                <h5 class="card-title" style="color: black; font-size: 14px; margin: 0;">Food</h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+
+                                        <div class="col-md-4" style="padding: 5px;"> 
+                                            <!-- Card Content Here -->
+                                            <a href="{% url 'dog_bowls_feeders_products' %}">
+                                                <div class="card mb-2 product-card" style="width: 180px; height: 60px;">
+                                                    <div class="row g-0">
+                                                        <div class="col-md-6">
+                                                            <img src="{% static 'css/dog-bowls.jpg' %}" class="img-fluid rounded-start" alt="Dog" style="width: 100%; height: 100%; object-fit: cover;"> 
+                                                        </div>
+                                                        <div class="col-md-6 d-flex align-items-center justify-content-center"> <!-- Add flexbox classes -->
+                                                            <div class="card-body" style="padding: 8px;">
+                                                                <h5 class="card-title" style="color: black; font-size: 14px; margin: 0;">Bowls Feeders</h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+
+                                        <div class="col-md-4" style="padding: 5px;"> 
+                                            <!-- Card Content Here -->
+                                            <a href="{% url 'dog_toys_products' %}">
+                                                <div class="card mb-2 product-card" style="width: 180px; height: 60px;">
+                                                    <div class="row g-0">
+                                                        <div class="col-md-6">
+                                                            <img src="{% static 'css/dog-toys.jpg' %}" class="img-fluid rounded-start" alt="Dog" style="width: 100%; height: 100%; object-fit: cover;"> 
+                                                        </div>
+                                                        <div class="col-md-6 d-flex align-items-center justify-content-center"> <!-- Add flexbox classes -->
+                                                            <div class="card-body" style="padding-bottom: 50px;">
+                                                                <h5 class="card-title" style="color: black; font-size: 14px; margin: 0;">Toys</h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+
+                                        <div class="col-md-4" style="padding: 5px;"> 
+                                            <!-- Card Content Here -->
+                                            <a href="{% url 'dog_collar_leashes_products' %}">
+                                                <div class="card mb-2 product-card" style="width: 180px; height: 60px;">
+                                                    <div class="row g-0">
+                                                        <div class="col-md-6">
+                                                            <img src="{% static 'css/dog-collor.jpg' %}" class="img-fluid rounded-start" alt="Dog" style="width: 100%; height: 100%; object-fit: cover;"> 
+                                                        </div>
+                                                        <div class="col-md-6 d-flex align-items-center justify-content-center"> <!-- Add flexbox classes -->
+                                                            <div class="card-body" style="padding-bottom: 60px;">
+                                                                <h5 class="card-title" style="color: black; font-size: 14px; margin: 0;">Collor Leashes</h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+
+                                        <div class="col-md-4" style="padding: 5px;"> 
+                                            <!-- Card Content Here -->
+                                            <a href="{% url 'dog_training_aids_products' %}">
+                                                <div class="card mb-2 product-card" style="width: 180px; height: 60px;">
+                                                    <div class="row g-0">
+                                                        <div class="col-md-6">
+                                                            <img src="{% static 'css/dog-training.jpg' %}" class="img-fluid rounded-start" alt="Dog" style="width: 100%; height: 100%; object-fit: cover;"> 
+                                                        </div>
+                                                        <div class="col-md-6 d-flex align-items-center justify-content-center"> <!-- Add flexbox classes -->
+                                                            <div class="card-body" style="padding-bottom: 30px;">
+                                                                <h5 class="card-title" style="color: black; font-size: 14px; margin: 0;">Training Aids</h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+
+                                        <div class="col-md-4" style="padding: 5px;"> 
+                                            <!-- Card Content Here -->
+                                            <a href="{% url 'dog_grooming_supplies_products' %}">
+                                                <div class="card mb-2 product-card" style="width: 180px; height: 60px;">
+                                                    <div class="row g-0">
+                                                        <div class="col-md-6">
+                                                            <img src="{% static 'css/dog-grooming.jpg' %}" class="img-fluid rounded-start" alt="Dog" style="width: 100%; height: 100%; object-fit: cover;"> 
+                                                        </div>
+                                                        <div class="col-md-6 d-flex align-items-center justify-content-center"> <!-- Add flexbox classes -->
+                                                            <div class="card-body" style="padding: 8px;">
+                                                                <h5 class="card-title" style="color: black; font-size: 14px; margin: 0;">Grooming</h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <div class="btn-group">
+                                <button type="button" class="btn dropdown-toggle white-text" data-bs-toggle="dropdown" aria-expanded="false" onmouseover="this.click();" onmouseout="this.blur();">
+                                    Cat <i class="bi bi-chevron-down"></i> <span class="visually-hidden">Toggle Dropdown</span>
+                                </button>                                
+                                <div class="dropdown-menu mega-menu">
+                                    <div class="row">
+                                        <!-- First Card -->
+                                        <div class="col-md-4" style="padding: 5px;"> 
+                                            <!-- Card Content Here -->
+                                            <a href="{% url 'cat_food' %}">
+                                                <div class="card mb-2 product-card" style="width: 180px; height: 60px;">
+                                                    <div class="row g-0">
+                                                        <div class="col-md-6">
+                                                            <img src="{% static 'css/cat-food.jpg' %}" class="img-fluid rounded-start" alt="Cat" style="width: 100%; height: 100%; object-fit: cover;">
+                                                        </div>
+                                                        <div class="col-md-6 d-flex align-items-center justify-content-center"> <!-- Add flexbox classes -->
+                                                            <div class="card-body" style="padding-bottom: 50px;">
+                                                                <h5 class="card-title" style="color: black; font-size: 14px; margin: 0;">Food</h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        
+                                        <!-- Second Card -->
+                                        <div class="col-md-4" style="padding: 5px;"> 
+                                            <!-- Card Content Here -->
+                                            <a href="{% url 'cat_grooming' %}">
+                                                <div class="card mb-2 product-card" style="width: 180px; height: 60px;">
+                                                    <div class="row g-0">
+                                                        <div class="col-md-6">
+                                                            <img src="{% static 'css/cat-grooming.jpg' %}" class="img-fluid rounded-start" alt="Cat" style="width: 100%; height: 100%; object-fit: cover;"> 
+                                                        </div>
+                                                        <div class="col-md-6 d-flex align-items-center justify-content-center"> <!-- Add flexbox classes -->
+                                                            <div class="card-body" style="padding-bottom: 60px;">
+                                                                <h5 class="card-title" style="color: black; font-size: 14px; margin: 0;">Grooming</h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        
+                                        <!-- Third Card -->
+                                        <div class="col-md-4" style="padding: 5px;"> 
+                                            <!-- Card Content Here -->
+                                            <a href="{% url 'cat_toys' %}">
+                                                <div class="card mb-2 product-card" style="width: 180px; height: 60px;">
+                                                    <div class="row g-0">
+                                                        <div class="col-md-6">
+                                                            <img src="{% static 'css/cat-toys.jpg' %}" class="img-fluid rounded-start" alt="Cat" style="width: 100%; height: 100%; object-fit: cover;"> 
+                                                        </div>
+                                                        <div class="col-md-6 d-flex align-items-center justify-content-center"> <!-- Add flexbox classes -->
+                                                            <div class="card-body" style="padding-bottom: 40px;">
+                                                                <h5 class="card-title" style="color: black; font-size: 14px; margin: 0;">Toys</h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+
+                                        <!-- Fourth Card -->
+                                        <div class="col-md-4" style="padding: 5px;"> 
+                                            <!-- Card Content Here -->
+                                            <a href="{% url 'cat_treats' %}">
+                                                <div class="card mb-2 product-card" style="width: 180px; height: 60px;">
+                                                    <div class="row g-0">
+                                                        <div class="col-md-6">
+                                                            <img src="{% static 'css/cat-treats.jpg' %}" class="img-fluid rounded-start" alt="Cat" style="width: 100%; height: 100%; object-fit: cover;"> 
+                                                        </div>
+                                                        <div class="col-md-6 d-flex align-items-center justify-content-center"> <!-- Add flexbox classes -->
+                                                            <div class="card-body" style="padding-bottom: 40px;">
+                                                                <h5 class="card-title" style="color: black; font-size: 14px; margin: 0;">Treats</h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+
+                                        <div class="col-md-4" style="padding: 5px;"> 
+                                            <!-- Card Content Here -->
+                                            <a href="{% url 'cat_transport' %}">
+                                                <div class="card mb-2 product-card" style="width: 180px; height: 60px;">
+                                                    <div class="row g-0">
+                                                        <div class="col-md-6">
+                                                            <img src="{% static 'css/cat-transport.jpg' %}" class="img-fluid rounded-start" alt="Cat" style="width: 100%; height: 100%; object-fit: cover;"> 
+                                                        </div>
+                                                        <div class="col-md-6 d-flex align-items-center justify-content-center"> <!-- Add flexbox classes -->
+                                                            <div class="card-body" style="padding: 8px;">
+                                                                <h5 class="card-title" style="color: black; font-size: 14px; margin: 0;">Transport</h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+
+                                        <div class="col-md-4" style="padding: 5px;"> 
+                                            <!-- Card Content Here -->
+                                            <a href="{% url 'cat_bedding' %}">
+                                                <div class="card mb-2 product-card" style="width: 180px; height: 60px;">
+                                                    <div class="row g-0">
+                                                        <div class="col-md-6">
+                                                            <img src="{% static 'css/cat-bedding.jpg' %}" class="img-fluid rounded-start" alt="Cat" style="width: 100%; height: 100%; object-fit: cover;"> 
+                                                        </div>
+                                                        <div class="col-md-6 d-flex align-items-center justify-content-center"> <!-- Add flexbox classes -->
+                                                            <div class="card-body" style="padding-bottom: 50px;">
+                                                                <h5 class="card-title" style="color: black; font-size: 14px; margin: 0;">Bedding</h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+
+                                        <div class="col-md-4" style="padding: 5px;"> 
+                                            <!-- Card Content Here -->
+                                            <a href="{% url 'cat_collors_harness' %}">
+                                                <div class="card mb-2 product-card" style="width: 180px; height: 60px;">
+                                                    <div class="row g-0">
+                                                        <div class="col-md-6">
+                                                            <img src="{% static 'css/cat-collors.jpg' %}" class="img-fluid rounded-start" alt="Cat" style="width: 100%; height: 100%; object-fit: cover;""> 
+                                                        </div>
+                                                        <div class="col-md-6 d-flex align-items-center justify-content-center" style="position: relative;"> 
+                                                            <div class="card-body" style="padding-bottom: 60px;">
+                                                                <h5 class="card-title" style="color: black; font-size: 14px; margin: 0;">Collors Harness</h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+
+                                        <div class="col-md-4" style="padding: 5px;"> 
+                                            <!-- Card Content Here -->
+                                            <a href="{% url 'cat_kennels' %}">
+                                                <div class="card mb-2 product-card" style="width: 180px; height: 60px;">
+                                                    <div class="row g-0">
+                                                        <div class="col-md-6">
+                                                            <img src="{% static 'css/cat-kennels.jpg' %}" class="img-fluid rounded-start" alt="Cat" style="width: 100%; height: 100%; object-fit: cover;"> 
+                                                        </div>
+                                                        <div class="col-md-6 d-flex align-items-center justify-content-center"> <!-- Add flexbox classes -->
+                                                            <div class="card-body" style="padding-bottom: 50px;">
+                                                                <h5 class="card-title" style="color: black; font-size: 14px; margin: 0;">Kennels</h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+
+                                        <div class="col-md-4" style="padding: 5px;"> 
+                                            <!-- Card Content Here -->
+                                            <a href="{% url 'cat_training_aids' %}">
+                                                <div class="card mb-2 product-card" style="width: 180px; height: 60px;">
+                                                    <div class="row g-0">
+                                                        <div class="col-md-6">
+                                                            <img src="{% static 'css/cat-training.jpg' %}" class="img-fluid rounded-start" alt="Cat" style="width: 100%; height: 100%; object-fit: cover;"> 
+                                                        </div>
+                                                        <div class="col-md-6 d-flex align-items-center justify-content-center"> <!-- Add flexbox classes -->
+                                                            <div class="card-body" style="padding-bottom: 500px;">
+                                                                <h5 class="card-title" style="color: black; font-size: 14px; margin: 0;">Training Aids</h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+
+                                        <div class="col-md-4" style="padding: 5px;"> 
+                                            <!-- Card Content Here -->
+                                            <a href="{% url 'cat_bowls' %}">
+                                                <div class="card mb-2 product-card" style="width: 180px; height: 60px;">
+                                                    <div class="row g-0">
+                                                        <div class="col-md-6">
+                                                            <img src="{% static 'css/cat-bowls.jpg' %}" class="img-fluid rounded-start" alt="Cat" style="width: 100%; height: 100%; object-fit: cover;"> 
+                                                        </div>
+                                                        <div class="col-md-6 d-flex align-items-center justify-content-center"> <!-- Add flexbox classes -->
+                                                            <div class="card-body" style="padding-bottom: 40px;">
+                                                                <h5 class="card-title" style="color: black; font-size: 14px; margin: 0;">Bowls</h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                    <li class="nav-item dropdown">
+                        <div class="btn-group">
+                            <button type="button" class="btn dropdown-toggle white-text" data-bs-toggle="dropdown" aria-expanded="false" onmouseover="this.click();" onmouseout="this.blur();">
+                                New Paw Parent <i class="bi bi-chevron-down"></i> <span class="visually-hidden">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">
+                                <img src="{% static 'css/Shop Dog.jpg' %}" class="img-fluid rounded-start" alt="Shop Dog">
+                                <h5>Dog</h5>
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">
+                                <img src="{% static 'css/Shop Cat.jpg' %}" class="img-fluid rounded-start" alt="Shop Cat">
+                                <h5>Cat</h5>
+                                </a>
+                            </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <div class="btn-group">
+                            <button type="button" class="btn dropdown-toggle white-text" data-bs-toggle="dropdown" aria-expanded="false" onmouseover="this.click();" onmouseout="this.blur();">
+                                Shop by Brand <i class="bi bi-chevron-down"></i> <span class="visually-hidden">Toggle Dropdown</span>
+                            </button>
+                            <div class="dropdown-menu mega-menu">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <a href="#"><img src="{% static 'css/Pedigree.jpg' %}" class="img-fluid rounded-start" alt="Pedigree"></a>
+                                    </div>
+                                    <div class="col-3">
+                                        <a href="#"><img src="{% static 'css/Whiskas.jpg' %}" class="img-fluid rounded-start" alt="Whiskas"></a>
+                                    </div>
+                                    <div class="col-3">
+                                        <a href="#"><img src="{% static 'css/Royal Canin.jpg' %}" class="img-fluid rounded-start" alt="Royal Canin"></a>
+                                    </div>
+                                    <div class="col-3">
+                                        <a href="#"><img src="{% static 'css/Drools.jpg' %}" class="img-fluid rounded-start" alt="Drools"></a>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <a href="#"><img src="{% static 'css/Farmina.jpg' %}" class="img-fluid rounded-start" alt="Farmina"></a>
+                                    </div>
+                                    <div class="col-3">
+                                        <a href="#"><img src="{% static 'css/Sheba.jpg' %}" class="img-fluid rounded-start" alt="Sheba"></a>
+                                    </div>
+                                    <div class="col-3">
+                                        <a href="#"><img src="{% static 'css/Brunos Wild.jpg' %}" class="img-fluid rounded-start" alt="Brunos Wild"></a>
+                                    </div>
+                                    <div class="col-3">
+                                        <a href="#"><img src="{% static 'css/Catsan.jpg' %}" class="img-fluid rounded-start" alt="Catsan"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    </ul>
+                </div>
+                </div>
+            </nav>
+        </ul>
+
+        <div class="col-lg-4 col-md-6">
+            <form action="{% url 'search_results' %}" method="get" class="d-flex" role="search">
+                <input type="text" name="query" class="form-control me-2" placeholder="Search products..." aria-label="Search">
+                <button type="submit" class="btn search-btn" style="background-color: #FFA439; border-color: #FFA439;">Search</button>
+            </form>
+        </div>
+        
+        
+        <div class="header-menu">
+
+            {% if request.user.is_authenticated %}
+            <div class="user-section d-inline-flex align-items-center">
+                <div class="dropdown">
+                    <button class="text-white bg-transparent shadow-none border-0 dropdown-toggle" type="button"
+                            id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{ request.user.username }}
+                    </button>
+        
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="{% url 'customerprofile' %}">My Profile</a>
+                        <a href="{% url 'logout' %}?next={{ request.path }} " class="dropdown-item">Logout</a>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="login-section d-inline-flex align-items-center">
+                <a href="{% url 'login' %}?next={{ request.path }}">Login</a>
+            </div>
+            {% endif %}
+        
+            {% if request.user.is_authenticated %}
+            <div class="cart">
+                <a href="{% url 'cart' %}" style="color:white; text-decoration:none">
+                    <button type="button" class="btn btn-primary cart-button">
+                        <i class="bi bi-cart"></i> 
+                        <span class="badge badge-light">
+                            <p id="num_of_items">{% if cart.num_of_items %} {{ cart.num_of_item }} {% else %} 0 {% endif %}</p>
+                        </span>
+                    </button>
+                </a>
+            </div>
+            {% else %}
+            <div class="cart">
+                <a href="{% url 'login' %}" style="color:white; text-decoration:none">
+                    <button type="button" class="btn btn-primary cart-button">
+                        <i class="bi bi-cart"></i> 
+                        <span class="badge badge-light">
+                            <p id="num_of_items">{% if cart.num_of_items %} {{ cart.num_of_item }} {% else %} 0 {% endif %}</p>
+                        </span>
+                    </button>
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </nav>
+
+    
+
+    {% if messages %}
+
+    {% for message in messages %}
+
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+       {{message}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    
+    {% endfor %}
+        
+    {% endif %}
+    
+     {% block content %}
+        
+     {% endblock content %}
+
+     <!-- Footer -->
+<footer
+class="text-center text-lg-start text-dark"
+style="background-color: #ECEFF1"
+>
+<!-- Section: Social media -->
+<section
+   class="d-flex justify-content-between p-4 text-white"
+   style="background-color: #FF2D79"
+   >
+<!-- Left -->
+<div class="me-5">
+<span>Get connected with us on social networks:</span>
+</div>
+<!-- Left -->
+
+<!-- Right -->
+<div>
+<a href="" class="text-white me-4">
+<i class="bi bi-facebook"></i>
+</a>
+<a href="" class="text-white me-4">
+<i class="bi bi-twitter"></i>
+</a>
+<a href="" class="text-white me-4">
+<i class="bi bi-instagram"></i>
+</a>
+<a href="" class="text-white me-4">
+<i class="bi bi-google"></i>
+</a>
+<a href="" class="text-white me-4">
+<i class="bi bi-tiktok"></i>
+</a>
+<a href="" class="text-white me-4">
+<i class="bi bi-github"></i>
+</a>
+</div>
+<!-- Right -->
+</section>
+<!-- Section: Social media -->
+
+<!-- Section: Links  -->
+<section class="">
+<div class="container text-center text-md-start mt-5">
+<!-- Grid row -->
+<div class="row mt-3">
+<!-- Grid column -->
+<div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+  <!-- Content -->
+  <h6 class="text-uppercase fw-bold">PawSome</h6>
+  <hr
+      class="mb-4 mt-0 d-inline-block mx-auto"
+      style="width: 60px; background-color: #7c4dff; height: 2px"
+      />
+  <p>
+    At Pawsome, we believe every pet deserves the best, and we're here to make sure you find just that.
+  </p>
+</div>
+<!-- Grid column -->
+
+<!-- Grid column -->
+<div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+  <!-- Links -->
+  <h6 class="text-uppercase fw-bold">Products</h6>
+  <hr
+      class="mb-4 mt-0 d-inline-block mx-auto"
+      style="width: 60px; background-color: #7c4dff; height: 2px"
+      />
+  <p>
+    <a href="#!" class="text-dark">Dog Products</a>
+  </p>
+  <p>
+    <a href="#!" class="text-dark">Cat Products</a>
+  </p>
+  <p>
+    <a href="#!" class="text-dark">New Paw Parent</a>
+  </p>
+  <p>
+    <a href="#!" class="text-dark">Shop By Brand</a>
+  </p>
+</div>
+<!-- Grid column -->
+
+<!-- Grid column -->
+<div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+  <!-- Links -->
+  <h6 class="text-uppercase fw-bold">Useful links</h6>
+  <hr
+      class="mb-4 mt-0 d-inline-block mx-auto"
+      style="width: 60px; background-color: #7c4dff; height: 2px"
+      />
+  <p>
+    <a href="#!" class="text-dark">Your Account</a>
+  </p>
+  <p>
+    <a href="#!" class="text-dark">Help</a>
+  </p>
+</div>
+<!-- Grid column -->
+
+<!-- Grid column -->
+<div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+  <!-- Links -->
+  <h6 class="text-uppercase fw-bold">Contact</h6>
+  <hr
+      class="mb-4 mt-0 d-inline-block mx-auto"
+      style="width: 60px; background-color: #7c4dff; height: 2px"
+      />
+  <p><i class="bi bi-pin-map-fill"></i> Kathmandu, Nepal</p>
+  <p><i class="bi bi-envelope-at-fill"></i> info@pawsome.com</p>
+  <p><i class="bi bi-telephone-inbound-fill"></i> + 01 234 567 88</p>
+  <p><i class="bi bi-telephone-inbound-fill"></i>+ 01 234 567 89</p>
+</div>
+<!-- Grid column -->
+</div>
+<!-- Grid row -->
+</div>
+</section>
+<!-- Section: Links  -->
+
+</footer>
+<!-- Footer -->
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+   <script src="{% static 'js/script.js' %}"></script>
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Include jQuery if not already included -->
+<script>
+$(document).ready(function() {
+    var closeTimeout;
+
+    $('.dropdown-toggle').on('mouseenter', function() {
+        clearTimeout(closeTimeout); // Clear any existing timeout to ensure dropdown stays open
+        $(this).dropdown('show');   // Show the dropdown when hovered
+    });
+
+    $('.dropdown-toggle, .dropdown-menu').on('mouseleave', function() {
+        var dropdownElem = $(this);
+        closeTimeout = setTimeout(function() {
+            dropdownElem.parent().find('.dropdown-toggle').dropdown('hide');
+        }, 100); // Hide the dropdown after 400ms delay
+    });
+
+    $('.dropdown-menu').on('mouseenter', function() {
+        clearTimeout(closeTimeout); // Clear the timeout if menu is hovered, to ensure dropdown stays open
+    });
+});
+</script>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0-alpha1/js/bootstrap.min.js"></script>
+
+</body>
+</html>
